@@ -1,0 +1,8 @@
+Automated Program Test
+./programtest.sh testprograms/memtest.elf testmem.txt data/reloadmem2kV_IO2/
+
+Load Program
+./load.sh alltest.elf test.txt test1.txt 
+
+Read Program
+sudo ./openmsp430-reader.tcl -device /dev/ttyS0 -adaptor uart_generic -speed 2000000 -test test.txt test1.txt

@@ -1,0 +1,4 @@
+
+Connecting with the openMSP430 (/dev/ttyS0, 2000000 bps)... Connected: target device has 4096B Program Memory and 1024B Data Memory
+
+Starting CPU
