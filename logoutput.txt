@@ -1,4 +1,11 @@
 
-Connecting with the openMSP430 (/dev/ttyS0, 2000000 bps)... Connected: target device has 4096B Program Memory and 1024B Data Memory
+Connecting with the openMSP430 (/dev/ttyS0, 2000000 bps)... 
 
-Starting CPU
+ERROR: cpu_id not valid: 0x00000000
+
+         --------------------------------------------------------------
+       !!!! What next:                                               !!!!
+       !!!!    - check that you are properly connected to the board. !!!!
+       !!!!    - try reseting the serial debug interface (or CPU).   !!!!
+         --------------------------------------------------------------
+

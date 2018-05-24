@@ -4,7 +4,7 @@ sudo python ./pins.py #control signals for execution
 sudo python ./resetboard.py
 sudo python ./resetdebug.py
 
-for i in $(seq -w $3 200)
+for i in $(seq -w $3 $4)
 do
 echo "\n ******* Trial Number : $i *******\n"
 
@@ -18,7 +18,8 @@ do
     ./openmsp430-loader.tcl -device /dev/ttyS0 -adaptor uart_generic -speed 2000000 $1 | tee logoutput.txt
 done
 
-sleep 2
+./openmsp430-start.tcl
+sleep 3
 ./openmsp430-stop.tcl
 
 dt=$(date '+%y%m%d%H%M%S')
@@ -33,11 +34,10 @@ python sensorread.py $2${i}_1 # Reading the sensors before zap
 echo "\n ************************ Zapping *****************************"
 
 ./zap.exe
-sleep 0.25
+sleep 0.5
 
 echo "*******************Reading the sensors after the zap*************************"
-python sensorread.py $2${i}_2
-#
+
 
 
 ./openmsp430-stop.tcl | tee logoutput.txt
@@ -50,13 +50,14 @@ if grep -q "cpu_id not valid" logoutput.txt; then
     if grep -q "cpu_id not valid" logoutput.txt; then  #This will be like a fresh trial; but the data is anyways recorded
     
 	echo "\n\n **************Core communication could not be established. Reloading the program ********************* \n"
-	python scan_chain.py $2${i}_3 
         sudo python ./pins.py
         sudo python ./resetboard.py
         sudo python ./resetdebug.py
+        ./openmsp430-stop.tcl | tee logoutput.txt  #It should stop the program  
     fi
 fi
-
+ 
+python sensorread.py $2${i}_2  # Ruis Monitors depends on communication with the chip
 
 ./openmsp430-readpc.tcl -device /dev/ttyS0 -adaptor uart_generic -speed 2000000 -test $2${i}_${dt}pc2.txt $2${i}_${dt}pc2.txt
 ./openmsp430-readreg.tcl -device /dev/ttyS0 -adaptor uart_generic -speed 2000000 -test $2${i}_${dt}reg2.txt $2${i}_${dt}reg2.txt
@@ -89,4 +90,8 @@ then
     rm -f $2${i}_${dt}diffmem.txt
 fi
 
+python scan_chain.py $2${i}_3 #Scan Chain before reload
+sudo python ./pins.py
+sudo python ./resetboard.py
+sudo python ./resetdebug.py
 done

@@ -12,5 +12,5 @@ GPIO.output(26, 1)  #C
 GPIO.output(12, 1)  #B
 GPIO.output(25, 1)  #A
 GPIO.output(16,0)       #set dbg_en to 0
-time.sleep(1)
+time.sleep(0.01)
 GPIO.output(16,1)       #set dbg_en to 1
